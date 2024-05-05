@@ -6,19 +6,22 @@
     <div class="login__form">
       <p>Please authenticate yourself before continuing.</p>
 
-      <form class="mt-4" (ngSubmit)="attemptLogin()">
-        <app-alert>A simple danger alert</app-alert>
+      <form class="mt-4"
+            (ngSubmit)="attemptLogin()">
+        <app-alert *ngIf="errorMsg">{{errorMsg}}</app-alert>
 
         <div>
           <mat-form-field>
             <input type="text"
                    name="username"
                    [(ngModel)]="username"
+                   (keyup)="clearErrorMsg()"
+                   [disabled]="isLoggingIn"
                    placeholder="User Name"
                    matInput
                    required
             />
-            <mat-error>The name is not valid</mat-error>
+            <mat-error>Please provide a user name</mat-error>
           </mat-form-field>
         </div>
 
@@ -27,18 +30,22 @@
             <input type="password"
                    name="password"
                    [(ngModel)]="password"
+                   (keyup)="clearErrorMsg()"
+                   [disabled]="isLoggingIn"
                    placeholder="Password"
                    matInput
                    required
             />
-            <mat-error>Invalid Password</mat-error>
+            <mat-error>The password is required</mat-error>
           </mat-form-field>
         </div>
 
         <div class="mt-4">
           <button type="submit"
                   color="primary"
-                  mat-flat-button>Authenticate</button>
+                  [disabled]="isLoggingIn"
+                  mat-flat-button>Authenticate
+          </button>
         </div>
 
       </form>
