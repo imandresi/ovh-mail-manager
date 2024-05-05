@@ -1,0 +1,48 @@
+<section class="login__container">
+  <header>
+    <app-logo height="50"/>
+  </header>
+  <div class="login__section">
+    <div class="login__form">
+      <p>Please authenticate yourself before continuing.</p>
+
+      <form class="mt-4" (ngSubmit)="attemptLogin()">
+
+        <div>
+          <mat-form-field>
+            <input type="text"
+                   name="username"
+                   [(ngModel)]="username"
+                   placeholder="User Name"
+                   matInput
+                   required
+            />
+            <mat-error>The name is not valid</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <input type="password"
+                   name="password"
+                   [(ngModel)]="password"
+                   placeholder="Password"
+                   matInput
+                   required
+            />
+            <mat-error>Invalid Password</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit"
+                  color="primary"
+                  mat-flat-button>Authenticate</button>
+        </div>
+
+      </form>
+
+    </div>
+    <div class="login__hero"></div>
+  </div>
+</section>
