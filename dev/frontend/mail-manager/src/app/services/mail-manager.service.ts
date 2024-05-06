@@ -17,13 +17,23 @@ export class MailManagerService {
     return Promise.resolve(domain);
   }
 
-  checkLoggedIn(): Promise<boolean> {
-
+  checkLoggedIn(): void {
     if (!this.appState.isLoggedIn) {
-      // this.appState.isLoggedIn = true;
+
+      // do a request to the server to check if logged in
+      // const result = Promise.reject(null);
+      const result = Promise.resolve({domainName: 'example.com'});
+
+      result
+        .then((value: any | null) => {
+          this.appState.isLoggedIn = !!value?.domainName;
+          this.appState.domainName = value?.domainName;
+        })
+        .catch(error => {
+          this.appState.reset();
+        });
     }
 
-    return Promise.resolve(true);
   }
 
   getDomain(): Promise<string> {

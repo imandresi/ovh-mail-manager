@@ -23,10 +23,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mailManager.checkLoggedIn()
-      .then(loginStatus => {
-
-      });
+    this.mailManager.checkLoggedIn();
   }
 
 }
