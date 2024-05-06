@@ -4,8 +4,10 @@ import {LoginComponent} from "./components/login/login.component";
 import {NgIf} from "@angular/common";
 import {AppStateService} from "./services/app-state.service";
 import {MailManagerService} from "./services/mail-manager.service";
-import {HttpClient} from "@angular/common/http";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
+import {ConfigService} from "./services/config.service";
+import {Router} from "@angular/router";
+import {removeTrailingSlashes} from "./lib/tools";
 
 @Component({
   selector: 'app-root',
@@ -18,12 +20,26 @@ export class AppComponent implements OnInit {
   title = 'mail-manager';
 
   constructor(
+    private router: Router,
+    private config: ConfigService,
     private mailManager: MailManagerService,
     public appState: AppStateService) {
   }
 
   ngOnInit(): void {
-    this.mailManager.checkLoggedIn();
+
+    // read REST API endpoint from configuration file
+    this.config.loadConfig().subscribe(
+      config => {
+        this.appState.config = config;
+        this.appState.endPointUrl = removeTrailingSlashes(config.endpoint);
+
+        // check if already logged in
+        this.mailManager.checkLoggedIn();
+
+      }
+    )
+
   }
 
 }

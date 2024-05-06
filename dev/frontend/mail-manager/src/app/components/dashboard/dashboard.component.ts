@@ -56,6 +56,8 @@ export class DashboardComponent implements OnInit {
       data: mailbox
     }).afterClosed()
       .subscribe(result => {
+        if (!result) return;
+
         const status = result.success ? 'success' : 'danger';
 
         this.alert = {

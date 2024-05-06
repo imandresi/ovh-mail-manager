@@ -13,34 +13,57 @@ export class MailManagerService {
   }
 
   login(username: string, password: string): Promise<string | null> {
-    const domain = (username === 'admin') && (password === 'admin') ? 'example.com' : null;
-    return Promise.resolve(domain);
+    if (!username || !password) {
+      return Promise.reject('Invalid username or password');
+    }
+
+    return new Promise((resolve, reject) => {
+      const url = this.appState.endPointUrl + '/login';
+      this.http.get<any>(url).subscribe({
+        next: domainName => {
+          resolve(domainName || null);
+        },
+        error: error => {
+          reject(error);
+        }
+      });
+    });
+
   }
 
   checkLoggedIn(): void {
     if (!this.appState.isLoggedIn) {
 
       // do a request to the server to check if logged in
-      // const result = Promise.reject(null);
-      const result = Promise.resolve({domainName: 'example.com'});
-
-      result
-        .then((value: any | null) => {
+      const url = this.appState.endPointUrl + '/check-logged-in';
+      this.http.get<any>(url).subscribe({
+        next: value => {
           this.appState.isLoggedIn = !!value?.domainName;
           this.appState.domainName = value?.domainName;
-        })
-        .catch(error => {
+        },
+        error: err => {
           this.appState.reset();
-        });
+        }
+      });
+
     }
-
-  }
-
-  getDomain(): Promise<string> {
-    return Promise.resolve('example.com');
   }
 
   getAccounts(domain: string): Promise<any[]> {
+
+    return new Promise((resolve, reject) => {
+      const url = this.appState.endPointUrl + 'get-accounts';
+      this.http.get<any>(url).subscribe({
+        next: value => {
+          resolve(value);
+        },
+        error: error => {
+          reject(error);
+        }
+      })
+    });
+
+/*
     return Promise.resolve([
       {
         email: "john.doe@example.com",
@@ -84,16 +107,29 @@ export class MailManagerService {
         }
       }
     ]);
+*/
+
   }
 
   changePassword(domain: string, accountName: string, newPassword: string): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const url = this.appState.endPointUrl + '/change-password';
+      this.http.get<any>(url).subscribe({
+        next: value => {
+          resolve(value);
+        },
+        error: err => {
+          reject(err);
+        }
+      })
+    });
+
+/*
     return Promise.reject({
       success: false,
       message: 'An error occured.'
     });
-  }
-
-  disconnect(): void {
+*/
 
   }
 
