@@ -1,0 +1,8 @@
+{
+    "config": {
+        "platform-check": false
+    },
+    "require": {
+        "ovh/ovh": "^3.3"
+    }
+}
