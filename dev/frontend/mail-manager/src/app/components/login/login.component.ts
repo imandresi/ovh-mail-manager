@@ -32,7 +32,7 @@ import {AppStateService} from "../../services/app-state.service";
     {
       provide: MailManagerService,
       useClass: MailManagerService,
-      deps: [HttpClient]
+      deps: [HttpClient, AppStateService]
     }
   ],
 

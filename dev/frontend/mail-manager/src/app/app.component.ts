@@ -6,7 +6,6 @@ import {AppStateService} from "./services/app-state.service";
 import {MailManagerService} from "./services/mail-manager.service";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {ConfigService} from "./services/config.service";
-import {Router} from "@angular/router";
 import {removeTrailingSlashes} from "./lib/tools";
 
 @Component({
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit {
   title = 'mail-manager';
 
   constructor(
-    private router: Router,
     private config: ConfigService,
     private mailManager: MailManagerService,
     public appState: AppStateService) {

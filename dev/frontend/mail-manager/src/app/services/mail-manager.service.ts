@@ -13,6 +13,7 @@ export class MailManagerService {
   }
 
   login(username: string, password: string): Promise<string | null> {
+
     if (!username || !password) {
       return Promise.reject('Invalid username or password');
     }
@@ -21,10 +22,11 @@ export class MailManagerService {
       const url = this.appState.endPointUrl + '/login';
       this.http.get<any>(url).subscribe({
         next: domainName => {
+          console.log('domain name:', domainName);
           resolve(domainName || null);
         },
         error: error => {
-          reject(error);
+          reject(error.message);
         }
       });
     });
@@ -58,7 +60,7 @@ export class MailManagerService {
           resolve(value);
         },
         error: error => {
-          reject(error);
+          reject(error.message);
         }
       })
     });
@@ -118,8 +120,8 @@ export class MailManagerService {
         next: value => {
           resolve(value);
         },
-        error: err => {
-          reject(err);
+        error: error => {
+          reject(error.message);
         }
       })
     });

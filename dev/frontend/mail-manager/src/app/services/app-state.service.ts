@@ -15,6 +15,11 @@ export class AppStateService {
   }
 
   constructor() {
-    this.reset();
+    console.log('Init constructor');
+    this.isLoggedIn = false;
+    this.domainName = null;
+    this.endPointUrl = null;
+    this.config = {};
   }
+
 }
