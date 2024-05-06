@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-alert',
@@ -7,13 +7,40 @@ import { Component } from '@angular/core';
   templateUrl: './alert.component.html',
   styleUrl: './alert.component.scss'
 })
-export class AlertComponent {
-  alertClasses = {
-    "alert": true,
-    "alert-danger": true,
-    "alert-dismissible": true,
-    "fade": true,
-    "show": true
-  };
+export class AlertComponent implements OnInit {
+  @Input('status') alertStatus = 'danger';
+
+  alertClasses: any = {};
+
+  setAlertStatus(status: string) {
+    if (![
+      'primary',
+      'secondary',
+      'success',
+      'danger',
+      'warning',
+      'info'
+    ].includes(status)) return;
+
+    this.alertClasses = {
+      "alert": true,
+      "alert-primary": false,
+      "alert-secondary": false,
+      "alert-success": false,
+      "alert-danger": false,
+      "alert-warning": false,
+      "alert-info": false,
+      "alert-dismissible": true,
+      "fade": true,
+      "show": true
+    };
+
+    this.alertClasses[`alert-${status}`] = true;
+
+  }
+
+  ngOnInit(): void {
+    this.setAlertStatus(this.alertStatus);
+  }
 
 }

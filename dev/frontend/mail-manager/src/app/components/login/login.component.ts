@@ -3,6 +3,7 @@ import {LogoComponent} from "../logo/logo.component";
 import {MatButton} from "@angular/material/button";
 import {MatError, MatFormField} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {MatLabel} from "@angular/material/form-field";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AlertComponent} from "../alert/alert.component";
 import {MailManagerService} from "../../services/mail-manager.service";
@@ -20,6 +21,7 @@ import {AppStateService} from "../../services/app-state.service";
     MatFormField,
     MatInput,
     MatError,
+    MatLabel,
     ReactiveFormsModule,
     FormsModule,
     NgIf
@@ -66,10 +68,6 @@ export class LoginComponent implements OnInit {
           this.errorMsg = 'Invalid user name or password.'
           this.isLoggingIn = false;
         }
-        else {
-          // change route
-
-        }
 
       })
       .catch(error => {
@@ -83,6 +81,5 @@ export class LoginComponent implements OnInit {
 
   }
 
-  protected readonly onkeyup = onkeyup;
 }
 

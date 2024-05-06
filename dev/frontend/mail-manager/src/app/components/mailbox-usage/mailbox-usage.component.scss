@@ -1,0 +1,24 @@
+.mailbox__gauge__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .mailbox__gauge {
+    width: 100px;
+    height: 15px;
+    background-color: #d9b11e;
+
+    .mailbox__gauge__pointer {
+      width: 0;
+      height: 100%;
+      background-color: #d91212;
+    }
+  }
+
+  .mailbox__gauge__value {
+    margin-left: 15px;
+
+  }
+
+
+}

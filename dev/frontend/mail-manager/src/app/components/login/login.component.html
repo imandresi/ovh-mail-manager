@@ -12,12 +12,12 @@
 
         <div>
           <mat-form-field>
+            <mat-label>User Name</mat-label>
             <input type="text"
                    name="username"
                    [(ngModel)]="username"
                    (keyup)="clearErrorMsg()"
                    [disabled]="isLoggingIn"
-                   placeholder="User Name"
                    matInput
                    required
             />
@@ -27,12 +27,12 @@
 
         <div>
           <mat-form-field>
+            <mat-label>Password</mat-label>
             <input type="password"
                    name="password"
                    [(ngModel)]="password"
                    (keyup)="clearErrorMsg()"
                    [disabled]="isLoggingIn"
-                   placeholder="Password"
                    matInput
                    required
             />

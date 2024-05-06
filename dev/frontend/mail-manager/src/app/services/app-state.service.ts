@@ -5,10 +5,14 @@ import {Injectable} from '@angular/core';
 })
 export class AppStateService {
   isLoggedIn = false;
-  domainName: string | null;
+  domainName: string | null = null;
+
+  reset(): void {
+    this.isLoggedIn = false;
+    this.domainName = null;
+  }
 
   constructor() {
-    this.isLoggedIn = false;
-    this.domainName = 'example.com';
+    this.reset();
   }
 }
