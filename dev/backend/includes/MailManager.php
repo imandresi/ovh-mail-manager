@@ -7,6 +7,9 @@ class MailManager {
 
 	public $ovh;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct() {
 		$this->ovh = new Api(
 			APPLICATION_KEY,
@@ -46,7 +49,6 @@ class MailManager {
 		) );
 
 		return $result;
-
 	}
 
 	/**
@@ -92,6 +94,11 @@ class MailManager {
 	 *     domain: "example.com"
 	 *     size: 5000000000
 	 *     isBlocked: false
+	 *     usage: {
+	 *          date: "2023-07-03T12:11:23+02:00"
+	 *          quota: 8968770
+	 *          emailCount: 34
+	 *     }
 	 * }
 	 *
 	 * On Error:

@@ -21,3 +21,8 @@ define( 'APPLICATION_KEY', '' );
 define( 'APPLICATION_SECRET', '' );
 define( 'CONSUMER_KEY', '' );
 define('API_ENDPOINT', 'ovh-eu');
+
+define('LOGIN_USERNAME', '');
+define('LOGIN_PASSWORD', '');
+
+define('DOMAIN_NAME', '');
