@@ -1,11 +1,13 @@
 <?php
 
+namespace App\Core;
+
 use GuzzleHttp\Exception\ClientException;
 use \Ovh\Api;
 
 class MailManager {
 
-	public $ovh;
+	public Api $ovh;
 
 	/**
 	 * Constructor

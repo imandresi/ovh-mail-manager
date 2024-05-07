@@ -1,9 +1,16 @@
 {
+    "name": "imandresi/ovh-mail-manager-backend",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App"
+        }
+    },
     "config": {
         "platform-check": false
     },
     "require": {
         "ovh/ovh": "^3.3",
-        "firebase/php-jwt": "^6.10"
+        "firebase/php-jwt": "^6.10",
+        "nikic/fast-route": "^1.3"
     }
 }

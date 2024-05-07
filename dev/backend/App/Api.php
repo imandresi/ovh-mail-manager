@@ -1,5 +1,6 @@
 <?php
 
+namespace App;
 class Api {
 	private MailManager $mail_manager;
 
