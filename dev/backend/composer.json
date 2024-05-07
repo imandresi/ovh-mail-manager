@@ -3,6 +3,7 @@
         "platform-check": false
     },
     "require": {
-        "ovh/ovh": "^3.3"
+        "ovh/ovh": "^3.3",
+        "firebase/php-jwt": "^6.10"
     }
 }

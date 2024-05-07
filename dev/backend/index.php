@@ -2,7 +2,6 @@
 
 require_once( 'includes/common.php' );
 
-
 function process_request(): void {
 	$api = new Api();
 
@@ -24,7 +23,13 @@ function process_request(): void {
 			'method' => 'GET',
 			'callback' => array($api, 'check_logged_in'),
 			'params' => []
-		]
+		],
+
+		'get-accounts' => [
+			'method' => 'GET',
+			'callback' => array($api, 'get_accounts'),
+			'params' => []
+		],
 	];
 
 	// Does the action exist ?
