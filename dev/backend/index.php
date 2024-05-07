@@ -18,6 +18,12 @@ function process_request(): void {
 			'method'   => 'POST',
 			'callback' => array( $api, 'login' ),
 			'params' => []
+		],
+
+		'check-logged-in' => [
+			'method' => 'GET',
+			'callback' => array($api, 'check_logged_in'),
+			'params' => []
 		]
 	];
 
