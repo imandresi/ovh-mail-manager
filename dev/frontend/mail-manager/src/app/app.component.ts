@@ -7,6 +7,7 @@ import {MailManagerService} from "./services/mail-manager.service";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {ConfigService} from "./services/config.service";
 import {removeTrailingSlashes} from "./lib/tools";
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   constructor(
     private config: ConfigService,
     private mailManager: MailManagerService,
+    public auth: AuthService,
     public appState: AppStateService) {
   }
 

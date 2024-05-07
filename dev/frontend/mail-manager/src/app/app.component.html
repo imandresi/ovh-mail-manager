@@ -1,4 +1,4 @@
 <div class="container">
-  <app-login *ngIf="!appState.isLoggedIn"></app-login>
-  <app-dashboard *ngIf="appState.isLoggedIn"></app-dashboard>
+  <app-login *ngIf="!auth.isLoggedIn"></app-login>
+  <app-dashboard *ngIf="auth.isLoggedIn"></app-dashboard>
 </div>

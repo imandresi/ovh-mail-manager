@@ -10,6 +10,7 @@ import {MailManagerService} from "../../services/mail-manager.service";
 import {HttpClient} from "@angular/common/http";
 import {NgIf} from "@angular/common"
 import {AppStateService} from "../../services/app-state.service";
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,7 @@ import {AppStateService} from "../../services/app-state.service";
     {
       provide: MailManagerService,
       useClass: MailManagerService,
-      deps: [HttpClient, AppStateService]
+      deps: [HttpClient, AuthService, AppStateService]
     }
   ],
 
@@ -58,11 +59,11 @@ export class LoginComponent implements OnInit {
     this.isLoggingIn = true;
     this.errorMsg = '';
     this.mailManager.login(this.username, this.password)
-      .then(domainName => {
+      .then((response: any) => {
+        const domainName = response?.domainName;
 
         // set application state
         this.appState.domainName = domainName;
-        this.appState.isLoggedIn = !!domainName;
 
         // possible error message
         if (!domainName) {
