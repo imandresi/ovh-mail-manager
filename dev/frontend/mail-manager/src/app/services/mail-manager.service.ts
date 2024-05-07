@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AppStateService} from "./app-state.service";
 
 @Injectable({
@@ -19,16 +19,21 @@ export class MailManagerService {
     }
 
     return new Promise((resolve, reject) => {
-      const url = this.appState.endPointUrl + '/login';
-      this.http.get<any>(url).subscribe({
+      const url = this.appState.endPointUrl + "/login";
+      const data = {
+        username: username,
+        password: password
+      };
+
+      this.http.post<any>(url, data).subscribe({ 
         next: domainName => {
-          console.log('domain name:', domainName);
           resolve(domainName || null);
         },
-        error: error => {
-          reject(error.message);
+        error: errorObj => {
+          reject(errorObj?.error?.message);
         }
       });
+
     });
 
   }
@@ -37,7 +42,7 @@ export class MailManagerService {
     if (!this.appState.isLoggedIn) {
 
       // do a request to the server to check if logged in
-      const url = this.appState.endPointUrl + '/check-logged-in';
+      const url = this.appState.endPointUrl + '/?action=check-logged-in';
       this.http.get<any>(url).subscribe({
         next: value => {
           this.appState.isLoggedIn = !!value?.domainName;
@@ -54,10 +59,10 @@ export class MailManagerService {
   getAccounts(domain: string): Promise<any[]> {
 
     return new Promise((resolve, reject) => {
-      const url = this.appState.endPointUrl + 'get-accounts';
+      const url = this.appState.endPointUrl + `/?action=get-accounts&domain=${this.appState.domainName}`;
       this.http.get<any>(url).subscribe({
-        next: value => {
-          resolve(value);
+        next: value => { 
+          resolve(value);  
         },
         error: error => {
           reject(error.message);

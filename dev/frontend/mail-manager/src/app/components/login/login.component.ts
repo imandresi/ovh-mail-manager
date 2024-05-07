@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
 
   attemptLogin(): void {
     this.isLoggingIn = true;
+    this.errorMsg = '';
     this.mailManager.login(this.username, this.password)
       .then(domainName => {
 
