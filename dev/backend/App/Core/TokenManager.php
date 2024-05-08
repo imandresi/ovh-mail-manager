@@ -83,6 +83,8 @@ class TokenManager {
 			return false;
 		}
 
+		$this->inject_token_in_header();
+
 		return true;
 
 	}
