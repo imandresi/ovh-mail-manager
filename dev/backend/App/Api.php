@@ -16,15 +16,6 @@ class Api {
 		$this->mail_manager = new MailManager();
 	}
 
-	public function login($data) {
-		$this->clear_login_session();
-		if ( ( LOGIN_USERNAME != $data['username'] ) || ( LOGIN_PASSWORD != $data['password'] ) ) {
-			send_http_error(401, 'Invalid username or password');
-		}
-
-		$this->init_login_session();
-		send_http_response(DOMAIN_NAME);
-	}
 
 	public function check_logged_in($data) {
 		$logged_in = isset($_SESSION['domainName']) && $_SESSION['domainName'];
@@ -39,24 +30,6 @@ class Api {
 
 	}
 
-	public function get_accounts($data) {
-		$domain = $data['domain'];
-
-		if (DOMAIN_NAME !== $domain) {
-			send_http_error(400, 'Bad Request - Incorrect Domain');
-		}
-
-		try {
-			$accounts = $this->mail_manager->get_accounts( $domain, EXCLUDE_ACCOUNTS );
-			send_http_response($accounts);
-		}
-		catch (Exception $e) {
-			$error_message = $e->getMessage();
-			$error_code = $e->getCode();
-			send_http_error(400, "$error_code: $error_message");
-		}
-
-	}
 
 
 	private function init_login_session() {

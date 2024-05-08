@@ -9,6 +9,12 @@ class Router {
 	private $dispatcher;
 
 	function __construct() {
+		header( "Access-Control-Allow-Origin: *" );
+		header( "Content-Type: application/json; charset=UTF-8" );
+		header( "Access-Control-Allow-Methods: GET, POST, PUT, DELETE" );
+		header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With" );
+		header( "Access-Control-Expose-Headers: Authorization" );
+
 		$this->build_routes();
 	}
 
@@ -31,6 +37,12 @@ class Router {
 		$http_method = $_SERVER['REQUEST_METHOD'];
 		$uri         = $_SERVER['REQUEST_URI'];
 
+		// OPTIONS Method
+		if ($http_method === 'OPTIONS') {
+			http_response_code(200);
+			exit;
+		}
+
 		// Strip query string (?foo=bar) and decode URI
 		if ( false !== $pos = strpos( $uri, '?' ) ) {
 			$uri = substr( $uri, 0, $pos );
@@ -42,19 +54,26 @@ class Router {
 
 		switch ( $route_info[0] ) {
 			case \FastRoute\Dispatcher::NOT_FOUND:
-				die( 'ERROR 404 - Not Found' );
+				send_http_error( 404, 'Not Found' );
 				break;
 
 			case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
 				$allowedMethods = $route_info[1];
-				die( 'ERROR 405 - Method not allowed' );
+				send_http_error( 405, 'Method not allowed' );
 				break;
 
 			case \FastRoute\Dispatcher::FOUND:
 				$handler = $route_info[1];
 				$vars    = $route_info[2];
 				if ( is_callable( $handler ) ) {
-					call_user_func_array( $handler, $vars );
+					if ($http_method !== 'GET') {
+						$data = get_http_request_data();
+						call_user_func($handler, $data, $vars);
+					}
+					else {
+						call_user_func( $handler, $vars );
+					}
+
 				}
 				break;
 

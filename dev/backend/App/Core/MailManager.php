@@ -41,11 +41,11 @@ class MailManager {
 	 * @param $account
 	 * @param $password
 	 *
-	 * @return object
+	 * @return array
 	 * @throws ClientException if http request is an error
 	 *
 	 */
-	public function change_password( $domain, $account, $password ) {
+	public function change_password( $domain, $account, $password ): array {
 		$result = $this->ovh->post( "/email/domain/{$domain}/account/{$account}/changePassword", array(
 			'password' => $password,
 		) );
@@ -76,11 +76,18 @@ class MailManager {
 	 * @throws JsonException
 	 *
 	 */
-	public function get_accounts( $domain, $exclude = [] ) {
-		$result = $this->ovh->get( "/email/domain/{$domain}/account" );
-		$result = array_filter( $result, function ( $value ) use ( $exclude ) {
+	public function get_accounts( $domain, $exclude = [] ): array {
+		$accounts = $this->ovh->get( "/email/domain/{$domain}/account" );
+		$accounts = array_filter( $accounts, function ( $value ) use ( $exclude ) {
 			return ! in_array( $value, $exclude );
 		} );
+
+		$result = [];
+
+		foreach ($accounts as $account) {
+			$account_details = $this->get_account_details($domain, $account);
+			$result[] = $account_details;
+		}
 
 		return $result;
 	}
@@ -110,13 +117,13 @@ class MailManager {
 	 * @param $domain
 	 * @param $account_name
 	 *
-	 * @return object
+	 * @return array
 	 *
 	 * @throws ClientException if http request is an error
 	 * @throws JsonException
 	 *
 	 */
-	public function get_account_details( $domain, $account_name ) {
+	public function get_account_details( $domain, $account_name ): array {
 		$result = $this->ovh->get( "/email/domain/{$domain}/account/{$account_name}" );
 		$usage = $this->get_account_usage($domain, $account_name);
 		$result['usage'] = $usage;

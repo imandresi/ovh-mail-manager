@@ -51,8 +51,8 @@ class TokenManager {
 		header_remove( 'Authorization' );
 	}
 
-	public function extract_token_from_header() {
-		$this->token = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+	public function extract_token_from_header(): string {
+		$this->token = get_bearer_token() ?? '';
 
 		return $this->token;
 	}
@@ -86,6 +86,4 @@ class TokenManager {
 		return true;
 
 	}
-
-
 }

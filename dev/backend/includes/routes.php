@@ -3,6 +3,7 @@
 use App\RouteHandler;
 
 return [
-	[ 'GET', '/', [ RouteHandler::class, 'default' ] ],
-	[ 'GET', '/login/{domain}/create', [ RouteHandler::class, 'login' ] ]
+	[ 'POST', '/login', [ RouteHandler::class, 'login' ] ],
+	[ 'GET', '/get-accounts/{domain}', [ RouteHandler::class, 'get_accounts' ] ],
+	[ 'GET', '/check-logged-in', [ RouteHandler::class, 'check_logged_in' ] ],
 ];

@@ -41,6 +41,60 @@ function get_http_request_data() {
 
 }
 
+function get_authorization_http_header(): ?string {
+	$headers = null;
+
+	if ( isset( $_SERVER['Authorization'] ) ) {
+		return trim( $_SERVER["Authorization"] );
+	}
+
+	if ( isset( $_SERVER['HTTP_AUTHORIZATION'] ) ) { //Nginx or fast CGI
+		return trim( $_SERVER["HTTP_AUTHORIZATION"] );
+	}
+
+	if ( function_exists( 'apache_request_headers' ) ) {
+		$requestHeaders = apache_request_headers();
+		$requestHeaders = array_combine( array_map( 'ucwords', array_keys( $requestHeaders ) ), array_values( $requestHeaders ) );
+		if ( isset( $requestHeaders['Authorization'] ) ) {
+			$headers = trim( $requestHeaders['Authorization'] );
+		}
+	}
+
+	return $headers;
+}
+
+function get_bearer_token(): ?string {
+	$headers = get_authorization_http_header();
+	if ( ! empty( $headers ) ) {
+		if ( preg_match( '/Bearer\s(\S+)/', $headers, $matches ) ) {
+			return $matches[1];
+		}
+	}
+
+	return null;
+}
+
+
+function get_token_manager(): ?\App\Core\TokenManager {
+	static $token_manager = null;
+
+	if ( ! $token_manager ) {
+		$token_manager = new \App\Core\TokenManager();
+	}
+
+	return $token_manager;
+}
+
+function get_mail_manager(): \App\Core\MailManager {
+	static $mail_manager = null;
+
+	if ( ! $mail_manager ) {
+		$mail_manager = new \App\Core\MailManager();
+	}
+
+	return $mail_manager;
+
+}
 
 function save_log( $data, $label = '' ) {
 	$data = print_r( $data, true );
