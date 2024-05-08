@@ -10,6 +10,8 @@ import {NewPasswordDialogComponent} from "../new-password-dialog/new-password-di
 import {AlertComponent} from "../alert/alert.component";
 import {NgIf} from "@angular/common";
 import {Router} from "@angular/router";
+import { AsyncPipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 export interface MailboxElement {
   email: string,
@@ -23,6 +25,7 @@ export interface MailboxElement {
   selector: 'app-dashboard',
   standalone: true,
   imports: [
+    CommonModule,
     LogoComponent,
     AlertComponent,
     MatTableModule,
@@ -35,7 +38,8 @@ export interface MailboxElement {
 })
 export class DashboardComponent implements OnInit {
 
-  mailboxes: MailboxElement[] = [];
+  // mailboxes: MailboxElement[] = [];
+  mailboxes: Promise<any> = Promise.resolve([]);
   columnNames = ['email', 'emailCount', 'mailboxSize', 'usage', 'action'];
   alert: any = null;
 
@@ -79,9 +83,9 @@ export class DashboardComponent implements OnInit {
 
     if (!domainName) return;
 
-    this.mailboxes = [];
+    this.mailboxes = 
     this.mailManager.getAccounts(domainName).then(mailboxes => {
-      this.mailboxes = mailboxes.map(mailbox => {
+      return mailboxes.map(mailbox => {
         return {
           email: mailbox.email,
           accountName: mailbox.accountName,

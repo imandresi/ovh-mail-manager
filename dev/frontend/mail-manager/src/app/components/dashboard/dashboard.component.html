@@ -14,7 +14,7 @@
     <app-alert *ngIf="alert?.status && alert?.message"
                status={{alert.status}}>{{alert.message}}</app-alert>
 
-    <table mat-table [dataSource]="mailboxes">
+    <table mat-table [dataSource]="mailboxes | async">
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef>Email</th>
         <td mat-cell *matCellDef="let element">{{element.email}}</td>

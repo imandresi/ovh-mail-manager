@@ -46,7 +46,7 @@ export class MailManagerService {
     if (!this.auth.isLoggedIn) {
 
       // do a request to the server to check if logged in
-      const url = this.appState.endPointUrl + '/?action=check-logged-in';
+      const url = this.appState.endPointUrl + '/check-logged-in';
       this.http.get<any>(url).subscribe({
         next: value => {
           this.appState.domainName = value?.domainName;
@@ -55,15 +55,14 @@ export class MailManagerService {
           this.appState.reset();
         }
       });
-
-    }
+  
+    }  
   }
 
   getAccounts(domain: string): Promise<any[]> {
 
     return new Promise((resolve, reject) => {
-      // const url = this.appState.endPointUrl + `/?action=get-accounts&domain=${this.appState.domainName}`;
-      const url = this.appState.endPointUrl + `/?action=get-accounts&domain=${this.appState.domainName}`;
+      const url = this.appState.endPointUrl + `/get-accounts/${this.appState.domainName}`;
       this.http.get<any>(url).subscribe({
         next: value => { 
           resolve(value);  
