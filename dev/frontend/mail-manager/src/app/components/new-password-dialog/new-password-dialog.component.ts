@@ -1,13 +1,13 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from "@angular/material/dialog";
-import {MatFormField} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {FormsModule} from "@angular/forms";
-import {MatLabel} from "@angular/material/form-field";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {MailboxElement} from "../dashboard/dashboard.component";
-import {MailManagerService} from "../../services/mail-manager.service";
-import {AppStateService} from "../../services/app-state.service";
+import { Component, Inject } from '@angular/core';
+import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from "@angular/material/dialog";
+import { MatFormField } from "@angular/material/form-field";
+import { MatInput } from "@angular/material/input";
+import { FormsModule } from "@angular/forms";
+import { MatLabel } from "@angular/material/form-field";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MailboxElement } from "../dashboard/dashboard.component";
+import { MailManagerService } from "../../services/mail-manager.service";
+import { AppStateService } from "../../services/app-state.service";
 
 @Component({
   selector: 'app-new-password-dialog',
@@ -39,12 +39,15 @@ export class NewPasswordDialogComponent {
     const domainName = this.appState.domainName;
 
     this.mailManager.changePassword(domainName!, this.mailbox.accountName, this.newPassword)
-      .then(value => {
-        this.dialogRef.close(value);
-      })
-      .catch(error => {
-        this.dialogRef.close(error);
+      .subscribe({
+        next: (value) => {
+          this.dialogRef.close(value);
+        },
+        error: (error) => {
+          this.dialogRef.close(error);
+        }
       });
+
   }
 
 }

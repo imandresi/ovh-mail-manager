@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges, SimpleChanges} from '@angular/core';
 
 @Component({
   selector: 'app-alert',
@@ -7,7 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
   templateUrl: './alert.component.html',
   styleUrl: './alert.component.scss'
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent implements OnInit, OnChanges {
   @Input('status') alertStatus = 'danger';
 
   alertClasses: any = {};
@@ -41,6 +41,11 @@ export class AlertComponent implements OnInit {
 
   ngOnInit(): void {
     this.setAlertStatus(this.alertStatus);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.setAlertStatus(this.alertStatus);
+   
   }
 
 }

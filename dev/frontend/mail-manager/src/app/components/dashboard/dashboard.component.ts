@@ -1,15 +1,15 @@
-import {Component, OnInit} from '@angular/core';
-import {LogoComponent} from "../logo/logo.component";
-import {MailManagerService} from "../../services/mail-manager.service";
-import {MatTableModule} from "@angular/material/table";
-import {MatDialogModule} from "@angular/material/dialog";
-import {AppStateService} from "../../services/app-state.service";
-import {MailboxUsageComponent} from "../mailbox-usage/mailbox-usage.component";
-import {MatDialog} from "@angular/material/dialog"
-import {NewPasswordDialogComponent} from "../new-password-dialog/new-password-dialog.component";
-import {AlertComponent} from "../alert/alert.component";
-import {NgIf} from "@angular/common";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { LogoComponent } from "../logo/logo.component";
+import { MailManagerService } from "../../services/mail-manager.service";
+import { MatTableModule } from "@angular/material/table";
+import { MatDialogModule } from "@angular/material/dialog";
+import { AppStateService } from "../../services/app-state.service";
+import { MailboxUsageComponent } from "../mailbox-usage/mailbox-usage.component";
+import { MatDialog } from "@angular/material/dialog"
+import { NewPasswordDialogComponent } from "../new-password-dialog/new-password-dialog.component";
+import { AlertComponent } from "../alert/alert.component";
+import { NgIf } from "@angular/common";
+import { Router } from "@angular/router";
 import { AsyncPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 
@@ -59,17 +59,24 @@ export class DashboardComponent implements OnInit {
     this.passwordDialog.open(NewPasswordDialogComponent, {
       data: mailbox
     }).afterClosed()
-      .subscribe(result => {
-        if (!result) return;
+      .subscribe({
+        next: result => {
+          if (!result) return;
 
-        const status = result.success ? 'success' : 'danger';
-
-        this.alert = {
-          status: status,
-          message: result.message
-        };
-
-      });
+          const status = result.success ? 'success' : 'danger';
+          const message = result.success ? result.message : result.error?.details?.message;
+  
+          this.alert = {
+            status,
+            message
+          };
+  
+        }
+  
+      }
+    
+    );
+        
   }
 
   disconnect(): void {
@@ -83,8 +90,8 @@ export class DashboardComponent implements OnInit {
 
     if (!domainName) return;
 
-    this.mailboxes = 
-    this.mailManager.getAccounts(domainName).then(mailboxes => {
+    this.mailboxes = this.mailManager.getAccounts(domainName)
+    .then(mailboxes => {
       return mailboxes.map(mailbox => {
         return {
           email: mailbox.email,
@@ -94,6 +101,9 @@ export class DashboardComponent implements OnInit {
           usage: +mailbox.usage.quota
         };
       });
+    })
+    .catch(err => {
+      console.log('NgOninit:', err);
     });
 
   }

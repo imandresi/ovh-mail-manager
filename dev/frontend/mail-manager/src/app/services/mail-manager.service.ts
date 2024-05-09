@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AppStateService} from "./app-state.service";
 import { AuthService } from './auth.service';
+import { Observable, catchError, throwError } from 'rxjs';
+import { handleApiError } from '../lib/network';
 
 @Injectable({
   providedIn: 'root'
@@ -121,25 +123,19 @@ export class MailManagerService {
 
   }
 
-  changePassword(domain: string, accountName: string, newPassword: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-      const url = this.appState.endPointUrl + '/change-password';
-      this.http.get<any>(url).subscribe({
-        next: value => {
-          resolve(value);
-        },
-        error: error => {
-          reject(error.message);
-        }
-      })
-    });
+  changePassword(domain: string, accountName: string, newPassword: string): Observable<any> {
+      const data = {
+        domain: domain,
+        account: accountName,
+        password: newPassword
+      }
 
-/*
-    return Promise.reject({
-      success: false,
-      message: 'An error occured.'
-    });
-*/
+      const url = this.appState.endPointUrl + '/change-password';
+
+      return this.http.post<any>(url, data)
+      .pipe(
+        catchError(handleApiError)
+      );
 
   }
 
