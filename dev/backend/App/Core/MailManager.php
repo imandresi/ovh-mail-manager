@@ -3,6 +3,7 @@
 namespace App\Core;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Client;
 use \Ovh\Api;
 
 class MailManager {
@@ -17,7 +18,7 @@ class MailManager {
 			APPLICATION_KEY,
 			APPLICATION_SECRET,
 			API_ENDPOINT,
-			CONSUMER_KEY
+			CONSUMER_KEY,
 		);
 	}
 
@@ -57,11 +58,20 @@ class MailManager {
 	 * Returns a list of all accounts
 	 *
 	 * On Success:
-	 * [
-	 *     "john.doe"
-	 *     "emily.smith"
-	 *     "alexander.johnson"
-	 * ]
+	 * {
+	 *      email: "john.doe@example.com"
+	 *      description: "mi12345-ovh"
+	 *      accountName: "john.doe"
+	 *      domain: "example.com"
+	 *      size: 5000000000
+	 *      isBlocked: false
+	 *      usage: {
+	 *           date: "2023-07-03T12:11:23+02:00"
+	 *           quota: 8968770
+	 *           emailCount: 34
+	 *      }
+	 *  },
+	 * ...
 	 *
 	 * On Error:
 	 * Not Found (404)
@@ -82,13 +92,15 @@ class MailManager {
 			return ! in_array( $value, $exclude );
 		} );
 
-		sort($accounts);
+		sort( $accounts );
 
 		$result = [];
 
-		foreach ( $accounts as $account ) {
-			$account_details = $this->get_account_details( $domain, $account );
-			$result[]        = $account_details;
+		if ( $accounts ) {
+			foreach ( $accounts as $account ) {
+				$account_details = $this->get_account_details( $domain, $account );
+				$result[]        = $account_details;
+			}
 		}
 
 		return $result;

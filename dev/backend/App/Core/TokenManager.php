@@ -7,6 +7,9 @@ use Firebase\JWT\Key;
 
 class TokenManager {
 
+//	const TOKEN_EXPIRATION_TIME = 60 * 60;
+	const TOKEN_EXPIRATION_TIME = 60;
+
 	private string $token;
 	private string $secret_key;
 
@@ -24,7 +27,7 @@ class TokenManager {
 		$this->token = '';
 
 		$payload_claim_iat = time();
-		$payload_claim_exp = $payload_claim_iat + 3600; // 1 hour validity
+		$payload_claim_exp = $payload_claim_iat + self::TOKEN_EXPIRATION_TIME; // 1 hour validity
 
 		$payload = [
 			'iss' => $_SERVER['HTTP_HOST'] ?? '',
@@ -69,21 +72,23 @@ class TokenManager {
 		}
 
 		// decode token
-		$decoded_token = JWT::decode( $token, new Key( $this->secret_key, 'HS256' ) );
-		$decoded_token = (array) $decoded_token;
+		try {
+			JWT::decode( $token, new Key( $this->secret_key, 'HS256' ) );
 
-		// check token validity
-		if (
-			( $decoded_token['exp'] < time() ) ||                             // check token expiration date
-			( $decoded_token['iss'] != ( $_SERVER['HTTP_HOST'] ?? '' ) ) ||     // check token issuer
-			( $decoded_token['aud'] != ( $_SERVER['HTTP_REFERER'] ?? '' ) )     // check token audience
-		) {
-			$this->revoke_authorization();
+			// No Error ? Token not expired yet - return in 'Authorization' header
+			$this->inject_token_in_header();
 
-			return false;
 		}
+		catch(\Exception $e) {
+			$error_code = $e->getCode();
+			$error_message = $e->getMessage();
+			if ($error_message == 'Expired token') {
+				$this->revoke_authorization();
 
-		$this->inject_token_in_header();
+				return false;
+			}
+
+		}
 
 		return true;
 

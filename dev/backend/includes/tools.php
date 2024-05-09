@@ -79,6 +79,8 @@ function get_bearer_token(): ?string {
 
 function message_extract_json_error( $message ) {
 	$regexp = "/response\:\s+(\{.+?\})$/is";
+	$json_str = null;
+
 	if ( preg_match( $regexp, $message, $matches ) ) {
 		$json_str = $matches[1];
 	}
