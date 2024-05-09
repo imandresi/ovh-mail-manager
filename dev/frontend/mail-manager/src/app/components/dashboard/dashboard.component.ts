@@ -44,6 +44,8 @@ export class DashboardComponent implements OnInit {
   columnNames = ['email', 'emailCount', 'mailboxSize', 'usage', 'action'];
   alert: any = null;
   btnChangePasswordDisabled = false;
+  showSpinner = false;
+  showActionNav = false;
 
   constructor(
     private router: Router,
@@ -95,17 +97,23 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
+  loadAccounts(): void {
     const domainName = this.appState.domainName;
+    this.showSpinner = false;
+    this.alert = null;
+    this.showActionNav = false;
 
     if (!domainName) return;
 
+    this.showSpinner = true;
     this.mailManager.getAccounts(domainName)
       .subscribe({
         next: (value: any) => {
+          this.showSpinner = false;
           this.mailboxes = value.map((mailbox: any) => {
             return {
               email: mailbox.email,
+              accountName: mailbox.accountName,
               emailCount: +mailbox?.usage?.emailCount,
               mailboxSize: mailbox.size,
               usage: mailbox?.usage?.quota
@@ -114,32 +122,20 @@ export class DashboardComponent implements OnInit {
         },
 
         error: result => {
+          this.showSpinner = false;
+          this.mailboxes = null;
+          this.showActionNav = true;
           this.alert = {
             status: 'danger',
-            message: result?.error?.details?.message
+            message: result?.error?.details?.message ?? result?.error?.message
           }
         }
 
       });
+  }
 
-
-    /*
-        Promise.resolve().then(mailboxes => {
-          return mailboxes.map(mailbox => {
-            return {
-              email: mailbox.email,
-              accountName: mailbox.accountName,
-              mailboxSize: +mailbox.size,
-              emailCount: +mailbox.usage.emailCount,
-              usage: +mailbox.usage.quota
-            };
-          });
-        })
-          .catch(err => {
-            console.log('NgOninit:', err);
-          });
-    */
-
+  ngOnInit(): void {
+    this.loadAccounts();
   }
 
 }

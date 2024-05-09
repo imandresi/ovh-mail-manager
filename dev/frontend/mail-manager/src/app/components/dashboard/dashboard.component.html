@@ -49,12 +49,16 @@
 
     </table>
 
-    <mat-spinner class="dashboard__spinner" *ngIf="!mailboxes"></mat-spinner>
+    <mat-spinner class="dashboard__spinner" *ngIf="showSpinner"></mat-spinner>
 
     <div class="dashboard__message">
       <p *ngIf="mailboxes && mailboxes.length===0">
         There is no mailbox to display. 
       </p>
+    </div>
+
+    <div class="dashboard__actions" *ngIf="showActionNav" (click)="loadAccounts()">
+      <button class="btn btn-outline-secondary">Reload Mailboxes</button>
     </div>
 
   </div>

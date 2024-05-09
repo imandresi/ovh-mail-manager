@@ -54,6 +54,13 @@
     margin-top: 30px;
   }
 
+  .dashboard__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    column-gap: 20px;
+  }
+
 
   table {
     .mat-column-emailCount,
