@@ -38,10 +38,10 @@ export interface MailboxElement {
 })
 export class DashboardComponent implements OnInit {
 
-  // mailboxes: MailboxElement[] = [];
   mailboxes: Promise<any> = Promise.resolve([]);
   columnNames = ['email', 'emailCount', 'mailboxSize', 'usage', 'action'];
   alert: any = null;
+  btnChangePasswordDisabled = false;
 
   constructor(
     private router: Router,
@@ -56,7 +56,11 @@ export class DashboardComponent implements OnInit {
   }
 
   openNewPasswordDialog(mailbox: MailboxElement): void {
-    this.passwordDialog.open(NewPasswordDialogComponent, {
+    this.alert = null;
+    this.btnChangePasswordDisabled = true;
+
+    this.passwordDialog.open(
+      NewPasswordDialogComponent, {
       data: mailbox
     }).afterClosed()
       .subscribe({
@@ -65,18 +69,22 @@ export class DashboardComponent implements OnInit {
 
           const status = result.success ? 'success' : 'danger';
           const message = result.success ? result.message : result.error?.details?.message;
-  
+
           this.alert = {
             status,
             message
           };
-  
-        }
-  
+
+          this.btnChangePasswordDisabled = false;
+
+        },
+        complete: () => {
+          this.btnChangePasswordDisabled = false;
+        },
+
       }
-    
-    );
-        
+
+      );
   }
 
   disconnect(): void {
@@ -91,20 +99,20 @@ export class DashboardComponent implements OnInit {
     if (!domainName) return;
 
     this.mailboxes = this.mailManager.getAccounts(domainName)
-    .then(mailboxes => {
-      return mailboxes.map(mailbox => {
-        return {
-          email: mailbox.email,
-          accountName: mailbox.accountName,
-          mailboxSize: +mailbox.size,
-          emailCount: +mailbox.usage.emailCount,
-          usage: +mailbox.usage.quota
-        };
+      .then(mailboxes => {
+        return mailboxes.map(mailbox => {
+          return {
+            email: mailbox.email,
+            accountName: mailbox.accountName,
+            mailboxSize: +mailbox.size,
+            emailCount: +mailbox.usage.emailCount,
+            usage: +mailbox.usage.quota
+          };
+        });
+      })
+      .catch(err => {
+        console.log('NgOninit:', err);
       });
-    })
-    .catch(err => {
-      console.log('NgOninit:', err);
-    });
 
   }
 

@@ -45,6 +45,7 @@
         <td mat-cell *matCellDef="let element">
           <button class="btn btn-outline-secondary btn-sm"
                   (click)="openNewPasswordDialog(element)"
+                  [disabled]="btnChangePasswordDisabled"
           >Change&nbsp;Password
           </button>
         </td>
