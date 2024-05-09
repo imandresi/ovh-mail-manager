@@ -12,6 +12,7 @@ import { NgIf } from "@angular/common";
 import { Router } from "@angular/router";
 import { AsyncPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 export interface MailboxElement {
   email: string,
@@ -30,6 +31,7 @@ export interface MailboxElement {
     AlertComponent,
     MatTableModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     MailboxUsageComponent,
     NgIf
   ],
