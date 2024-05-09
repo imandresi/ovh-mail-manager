@@ -13,6 +13,7 @@ import { Router } from "@angular/router";
 import { AsyncPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { AuthService } from '../../services/auth.service';
 
 export interface MailboxElement {
   email: string,
@@ -46,10 +47,12 @@ export class DashboardComponent implements OnInit {
   btnChangePasswordDisabled = false;
   showSpinner = false;
   showActionNav = false;
+  processing = false;
 
   constructor(
     private router: Router,
     private passwordDialog: MatDialog,
+    private authService: AuthService,
     public appState: AppStateService,
     public mailManager: MailManagerService) {
   }
@@ -93,12 +96,14 @@ export class DashboardComponent implements OnInit {
 
   disconnect(): void {
     this.appState.reset();
+    this.authService.authorizationToken = '';
     this.router.navigate(['/']);
 
   }
 
   loadAccounts(): void {
     const domainName = this.appState.getState('domainName');
+    this.processing = true;
     this.showSpinner = false;
     this.alert = null;
     this.showActionNav = false;
@@ -110,6 +115,7 @@ export class DashboardComponent implements OnInit {
       .subscribe({
         next: (value: any) => {
           this.showSpinner = false;
+          this.processing = false;
           this.mailboxes = value.map((mailbox: any) => {
             return {
               email: mailbox.email,
@@ -122,6 +128,7 @@ export class DashboardComponent implements OnInit {
         },
 
         error: result => {
+          this.processing = false;
           this.showSpinner = false;
           this.mailboxes = null;
           this.showActionNav = true;

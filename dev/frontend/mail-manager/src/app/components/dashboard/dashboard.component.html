@@ -2,7 +2,7 @@
   <header>
     <app-logo height="50" />
     <nav>
-      <button class="btn btn-secondary nav__item nav__item__disconnect" (click)="disconnect()">Disconnect
+      <button class="btn btn-secondary nav__item nav__item__disconnect" (click)="disconnect()" [disabled]="processing">Disconnect
       </button>
     </nav>
   </header>
