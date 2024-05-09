@@ -1,27 +1,20 @@
 <section class="login__container">
   <header>
-    <app-logo height="50"/>
+    <app-logo height="50" />
   </header>
   <div class="login__section">
     <div class="login__form">
       <p>Please authenticate yourself before continuing.</p>
 
-      <form class="mt-4"
-            (ngSubmit)="attemptLogin()">
-        <app-alert *ngIf="errorMsg">{{errorMsg}}</app-alert>
+      <form class="mt-4" (ngSubmit)="attemptLogin()">
+
+        <app-alert *ngIf="alert?.status && alert?.message" status={{alert.status}}>{{alert.message}}</app-alert>
 
         <div>
           <mat-form-field>
             <mat-label>User Name</mat-label>
-            <input type="text"
-                   name="username"
-                   [(ngModel)]="username"
-                   (keyup)="clearErrorMsg()"
-                   [disabled]="isLoggingIn"
-                   matInput
-                   autocomplete="off"
-                   required
-            />
+            <input type="text" name="username" [(ngModel)]="username" (keyup)="clearErrorMsg()" [disabled]="isLoggingIn"
+              matInput autocomplete="off" required />
             <mat-error>Please provide a user name</mat-error>
           </mat-form-field>
         </div>
@@ -29,24 +22,14 @@
         <div>
           <mat-form-field>
             <mat-label>Password</mat-label>
-            <input type="password"
-                   name="password"
-                   [(ngModel)]="password"
-                   (keyup)="clearErrorMsg()"
-                   [disabled]="isLoggingIn"
-                   matInput
-                   autocomplete="off"
-                   required
-            />
+            <input type="password" name="password" [(ngModel)]="password" (keyup)="clearErrorMsg()"
+              [disabled]="isLoggingIn" matInput autocomplete="off" required />
             <mat-error>The password is required</mat-error>
           </mat-form-field>
         </div>
 
         <div class="mt-4">
-          <button type="submit"
-                  color="primary"
-                  [disabled]="isLoggingIn"
-                  mat-flat-button>Authenticate
+          <button type="submit" color="primary" [disabled]="isLoggingIn" mat-flat-button>Authenticate
           </button>
         </div>
 

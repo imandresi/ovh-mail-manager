@@ -17,29 +17,24 @@ export class MailManagerService {
 
   }
 
-  login(username: string, password: string): Promise<string | null> {
+  login(username: string, password: string): Observable<any> {
 
-    if (!username || !password) {
-      return Promise.reject('Invalid username or password');
-    }
+    // if (!username || !password) {
+      // return Promise.reject('Invalid username or password');
+    // }
 
-    return new Promise((resolve, reject) => {
-      const url = this.appState.endPointUrl + "/login";
-      const data = {
-        username: username,
-        password: password
-      };
+    // return new Promise((resolve, reject) => {
 
-      this.http.post<any>(url, data, { observe: 'response' }).subscribe({
-        next: (response: any) => {
-          resolve(response.body || null);
-        },
-        error: errorObj => {
-          reject(errorObj?.error?.message);
-        }
-      });
+    const url = this.appState.endPointUrl + "/login";
+    const data = {
+      username: username,
+      password: password
+    };
 
-    });
+    return this.http.post<any>(url, data)
+      .pipe(
+        catchError(handleApiError)
+      );
 
   }
 
