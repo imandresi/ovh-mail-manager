@@ -17,7 +17,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     tap(event => {
       if (event instanceof HttpResponse) {
-        authService.parseHttpResponse(event);
+        authService.parseHttpResponse(authReq.url, event);
       }
     })
   );

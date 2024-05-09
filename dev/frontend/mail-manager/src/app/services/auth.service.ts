@@ -1,5 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { appEndpoints } from '../endpoints';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
     const authToken = this.authorizationToken;
     return !!authToken;
   }
-  
+
   set authorizationToken(value: string | null) {
     sessionStorage.setItem('authorization', (value || ''));
   }
@@ -21,8 +22,14 @@ export class AuthService {
     return sessionStorage.getItem('authorization') || '';
   }
 
-  parseHttpResponse(response: HttpResponse<any>): void {
-    this.authorizationToken = response.headers.get('Authorization') ;
+  parseHttpResponse(url: string, response: HttpResponse<any>): void {
+    const isApiResponse = !!appEndpoints
+      .map(v => url.includes(v)).find(v => v);
+
+    if (isApiResponse) {
+      const authorizationToken = response.headers.get('Authorization');
+      this.authorizationToken = authorizationToken;
+    }
 
   }
 

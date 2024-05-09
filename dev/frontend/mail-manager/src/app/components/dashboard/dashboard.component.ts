@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
   }
 
   loadAccounts(): void {
-    const domainName = this.appState.domainName;
+    const domainName = this.appState.getState('domainName');
     this.showSpinner = false;
     this.alert = null;
     this.showActionNav = false;

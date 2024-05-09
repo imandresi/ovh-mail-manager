@@ -36,7 +36,7 @@ export class NewPasswordDialogComponent {
   }
 
   changePassword() {
-    const domainName = this.appState.domainName;
+    const domainName = this.appState.getState('domainName');
 
     this.mailManager.changePassword(domainName!, this.mailbox.accountName, this.newPassword)
       .subscribe({

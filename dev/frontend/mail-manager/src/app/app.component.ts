@@ -18,6 +18,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit {
   title = 'mail-manager';
+  appInit = false;
 
   constructor(
     private config: ConfigService,
@@ -27,15 +28,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appInit = true;
 
     // read REST API endpoint from configuration file
     this.config.loadConfig().subscribe(
       config => {
+        config.endpoint = removeTrailingSlashes(config.endpoint);
         this.appState.config = config;
-        this.appState.endPointUrl = removeTrailingSlashes(config.endpoint);
 
         // check if already logged in
         this.mailManager.checkLoggedIn();
+        this.appInit = false;
 
       }
     )

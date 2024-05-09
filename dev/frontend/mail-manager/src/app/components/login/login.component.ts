@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       .subscribe({
         next: (response) => {
           const domainName = response?.domainName;
-          this.appState.domainName = domainName;
+          this.appState.setState('domainName', domainName);
         },
         error: (result) => {
           this.alert = {

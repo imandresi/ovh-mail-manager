@@ -19,13 +19,7 @@ export class MailManagerService {
 
   login(username: string, password: string): Observable<any> {
 
-    // if (!username || !password) {
-      // return Promise.reject('Invalid username or password');
-    // }
-
-    // return new Promise((resolve, reject) => {
-
-    const url = this.appState.endPointUrl + "/login";
+    const url = this.appState.config.endpoint + "/login";
     const data = {
       username: username,
       password: password
@@ -43,10 +37,10 @@ export class MailManagerService {
     if (!this.auth.isLoggedIn) {
 
       // do a request to the server to check if logged in
-      const url = this.appState.endPointUrl + '/check-logged-in';
+      const url = this.appState.config.endpoint + '/check-logged-in';
       this.http.get<any>(url).subscribe({
         next: value => {
-          this.appState.domainName = value?.domainName;
+          this.appState.setState('domainName', value?.domainName);
         },
         error: err => {
           this.appState.reset();
@@ -57,7 +51,8 @@ export class MailManagerService {
   }
 
   getAccounts(domain: string): Observable<any> {
-    const url = this.appState.endPointUrl + `/get-accounts/${this.appState.domainName}`;
+
+    const url = this.appState.config.endpoint + `/get-accounts/${this.appState.getState('domainName')}`;
     return this.http.get<any>(url)
       .pipe(
         catchError(handleApiError)
@@ -71,7 +66,7 @@ export class MailManagerService {
       password: newPassword
     }
 
-    const url = this.appState.endPointUrl + '/change-password';
+    const url = this.appState.config.endpoint + '/change-password';
 
     return this.http.post<any>(url, data)
       .pipe(
