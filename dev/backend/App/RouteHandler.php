@@ -48,4 +48,28 @@ class RouteHandler {
 		]);
 	}
 
+	public static function change_password($http_data) {
+		try {
+			$result = get_mail_manager()->change_password(
+				$http_data['domain'],
+				$http_data['account'],
+				$http_data['password']
+			);
+		}
+		catch (\Exception $e) {
+			$error_code    = $e->getCode();
+			$error_message = $e->getMessage();
+			$error_details    = message_extract_json_error( $error_message );
+
+			send_http_error( 400, "($error_code) $error_message", $error_details );
+		}
+
+		$email = $http_data['account'] . '@' . $http_data['domain'];
+		send_http_response([
+			"success" => true,
+			"message" => "Password changed successfully for: $email"
+		]);
+
+	}
+
 }

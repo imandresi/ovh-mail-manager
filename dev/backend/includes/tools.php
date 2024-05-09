@@ -1,12 +1,14 @@
 <?php
 
-function send_http_error( $error_code, $error_message, $error_details = '' ) {
+function send_http_error( $error_code, $error_message, $error_details = [] ) {
 	header( "Content-Type: application/json; charset=UTF-8" );
 	http_response_code( $error_code );
 	$response_data = [
-		'code'    => $error_code,
-		'message' => $error_message,
-		'details' => $error_details
+		'error' => [
+			'code'    => $error_code,
+			'message' => $error_message,
+			'details' => $error_details,
+		]
 	];
 
 	print json_encode( $response_data );
@@ -72,6 +74,17 @@ function get_bearer_token(): ?string {
 	}
 
 	return null;
+}
+
+
+function message_extract_json_error( $message ) {
+	$regexp = "/response\:\s+(\{.+?\})$/is";
+	if ( preg_match( $regexp, $message, $matches ) ) {
+		$json_str = $matches[1];
+	}
+
+	return ( json_decode( $json_str, true ) );
+
 }
 
 

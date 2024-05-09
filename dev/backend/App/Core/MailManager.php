@@ -82,11 +82,13 @@ class MailManager {
 			return ! in_array( $value, $exclude );
 		} );
 
+		sort($accounts);
+
 		$result = [];
 
-		foreach ($accounts as $account) {
-			$account_details = $this->get_account_details($domain, $account);
-			$result[] = $account_details;
+		foreach ( $accounts as $account ) {
+			$account_details = $this->get_account_details( $domain, $account );
+			$result[]        = $account_details;
 		}
 
 		return $result;
@@ -124,8 +126,8 @@ class MailManager {
 	 *
 	 */
 	public function get_account_details( $domain, $account_name ): array {
-		$result = $this->ovh->get( "/email/domain/{$domain}/account/{$account_name}" );
-		$usage = $this->get_account_usage($domain, $account_name);
+		$result          = $this->ovh->get( "/email/domain/{$domain}/account/{$account_name}" );
+		$usage           = $this->get_account_usage( $domain, $account_name );
 		$result['usage'] = $usage;
 
 		return $result;
