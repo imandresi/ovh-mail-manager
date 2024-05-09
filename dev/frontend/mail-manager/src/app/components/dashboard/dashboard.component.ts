@@ -40,7 +40,7 @@ export interface MailboxElement {
 })
 export class DashboardComponent implements OnInit {
 
-  mailboxes: Promise<any> = Promise.resolve([]);
+  mailboxes : MailboxElement[] | null = null;
   columnNames = ['email', 'emailCount', 'mailboxSize', 'usage', 'action'];
   alert: any = null;
   btnChangePasswordDisabled = false;
@@ -100,21 +100,45 @@ export class DashboardComponent implements OnInit {
 
     if (!domainName) return;
 
-    this.mailboxes = this.mailManager.getAccounts(domainName)
-      .then(mailboxes => {
-        return mailboxes.map(mailbox => {
-          return {
-            email: mailbox.email,
-            accountName: mailbox.accountName,
-            mailboxSize: +mailbox.size,
-            emailCount: +mailbox.usage.emailCount,
-            usage: +mailbox.usage.quota
-          };
-        });
-      })
-      .catch(err => {
-        console.log('NgOninit:', err);
+    this.mailManager.getAccounts(domainName)
+      .subscribe({
+        next: (value: any) => {
+          this.mailboxes = value.map((mailbox: any) => {
+            return {
+              email: mailbox.email,
+              emailCount: +mailbox?.usage?.emailCount,
+              mailboxSize: mailbox.size,
+              usage: mailbox?.usage?.quota
+            };
+          });
+        },
+
+        error: result => {
+          this.alert = {
+            status: 'danger',
+            message: result?.error?.details?.message
+          }
+        }
+
       });
+
+
+    /*
+        Promise.resolve().then(mailboxes => {
+          return mailboxes.map(mailbox => {
+            return {
+              email: mailbox.email,
+              accountName: mailbox.accountName,
+              mailboxSize: +mailbox.size,
+              emailCount: +mailbox.usage.emailCount,
+              usage: +mailbox.usage.quota
+            };
+          });
+        })
+          .catch(err => {
+            console.log('NgOninit:', err);
+          });
+    */
 
   }
 
