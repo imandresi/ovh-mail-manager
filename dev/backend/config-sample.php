@@ -17,12 +17,17 @@
  *
  */
 
-define( 'APPLICATION_KEY', '' );
-define( 'APPLICATION_SECRET', '' );
-define( 'CONSUMER_KEY', '' );
-define('API_ENDPOINT', 'ovh-eu');
+define( 'OVH_APPLICATION_KEY', '' );
+define( 'OVH_APPLICATION_SECRET', '' );
+define( 'OVH_CONSUMER_KEY', '' );
+define( 'OVH_API_ENDPOINT', 'ovh-eu' );
 
-define('LOGIN_USERNAME', '');
-define('LOGIN_PASSWORD', '');
+define( 'APP_API_ENDPOINT', '/api' );
 
-define('DOMAIN_NAME', '');
+define( 'AUTH_SECRET_KEY', '' );
+
+define( 'LOGIN_USERNAME', '' );
+define( 'LOGIN_PASSWORD', '' );
+
+define( 'DOMAIN_NAME', '' );
+define( 'EXCLUDE_ACCOUNTS', array() );

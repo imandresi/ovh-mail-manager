@@ -7,8 +7,7 @@ use Firebase\JWT\Key;
 
 class TokenManager {
 
-//	const TOKEN_EXPIRATION_TIME = 60 * 60;
-	const TOKEN_EXPIRATION_TIME = 60;
+	const TOKEN_EXPIRATION_TIME = 60 * 60;
 
 	private string $token;
 	private string $secret_key;
@@ -45,13 +44,13 @@ class TokenManager {
 
 	public function inject_token_in_header() {
 		if ( $this->token ) {
-			header( "Authorization: {$this->token}" );
+			header( "X-Authorization: {$this->token}" );
 		}
 	}
 
 	public function revoke_authorization() {
 		$this->token = '';
-		header_remove( 'Authorization' );
+		header_remove( 'X-Authorization' );
 	}
 
 	public function extract_token_from_header(): string {

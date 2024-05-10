@@ -15,10 +15,10 @@ class MailManager {
 	 */
 	public function __construct() {
 		$this->ovh = new Api(
-			APPLICATION_KEY,
-			APPLICATION_SECRET,
-			API_ENDPOINT,
-			CONSUMER_KEY,
+			OVH_APPLICATION_KEY,
+			OVH_APPLICATION_SECRET,
+			OVH_API_ENDPOINT,
+			OVH_CONSUMER_KEY,
 		);
 	}
 
