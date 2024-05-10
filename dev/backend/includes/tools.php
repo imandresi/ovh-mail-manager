@@ -43,7 +43,7 @@ function get_http_request_data() {
 
 }
 
-function get_authorization_http_header(): string {
+function get_authorization_http_header(): ?string {
 	$authorization_header = null;
 
 	if ( isset( $_SERVER['HTTP_X_AUTHORIZATION'] ) ) { //Nginx or fast CGI
@@ -53,7 +53,7 @@ function get_authorization_http_header(): string {
 	if ( function_exists( 'apache_request_headers' ) ) {
 		$requestHeaders = apache_request_headers();
 		$requestHeaders = array_combine( array_map( 'ucwords', array_keys( $requestHeaders ) ), array_values( $requestHeaders ) );
-		print_r($requestHeaders);
+
 		if ( isset( $requestHeaders['X-Authorization'] ) ) {
 			$authorization_header = trim( $requestHeaders['X-Authorization'] );
 		}

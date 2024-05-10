@@ -25,7 +25,12 @@ class RouteHandler {
 	public static function login( $http_data ) {
 		get_token_manager()->revoke_authorization();
 
-		if ( ( LOGIN_USERNAME != $http_data['username'] ) || ( LOGIN_PASSWORD != $http_data['password'] ) ) {
+		if (
+			(!isset($http_data['username'])) ||
+			(!isset($http_data['password'])) ||
+			( LOGIN_USERNAME != $http_data['username'] ) ||
+			( LOGIN_PASSWORD != $http_data['password'] )
+		) {
 			send_http_error( 401, 'Invalid username or password' );
 		}
 
