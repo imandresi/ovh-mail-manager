@@ -2,7 +2,8 @@
   <header>
     <app-logo height="50" />
     <nav>
-      <button class="btn btn-secondary nav__item nav__item__disconnect" (click)="disconnect()" [disabled]="processing">Disconnect
+      <button class="btn btn-secondary nav__item nav__item__disconnect" (click)="disconnect()"
+        [disabled]="processing">Disconnect
       </button>
     </nav>
   </header>
@@ -12,48 +13,50 @@
 
     <app-alert *ngIf="alert?.status && alert?.message" status={{alert.status}}>{{alert.message}}</app-alert>
 
-    <table mat-table [dataSource]="mailboxes || []">
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef>Email</th>
-        <td mat-cell *matCellDef="let element">{{element.email}}</td>
-      </ng-container>
+    <div class="dashboard__scroller">
+      <table mat-table [dataSource]="mailboxes || []">
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{element.email}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="emailCount">
-        <th mat-header-cell *matHeaderCellDef>Email count</th>
-        <td mat-cell *matCellDef="let element">{{element.emailCount}}</td>
-      </ng-container>
+        <ng-container matColumnDef="emailCount">
+          <th mat-header-cell *matHeaderCellDef>Email count</th>
+          <td mat-cell *matCellDef="let element">{{element.emailCount}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="mailboxSize">
-        <th mat-header-cell *matHeaderCellDef>Mailbox Size</th>
-        <td mat-cell *matCellDef="let element">{{bytesToGigabytes(+element.mailboxSize)}}</td>
-      </ng-container>
+        <ng-container matColumnDef="mailboxSize">
+          <th mat-header-cell *matHeaderCellDef>Mailbox Size</th>
+          <td mat-cell *matCellDef="let element">{{bytesToGigabytes(+element.mailboxSize)}}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="usage">
-        <th mat-header-cell *matHeaderCellDef>Usage</th>
-        <td mat-cell *matCellDef="let element">
-          <app-mailbox-usage [usage]="+element.usage" [mailboxSize]="+element.mailboxSize"></app-mailbox-usage>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="usage">
+          <th mat-header-cell *matHeaderCellDef>Usage</th>
+          <td mat-cell *matCellDef="let element">
+            <app-mailbox-usage [usage]="+element.usage" [mailboxSize]="+element.mailboxSize"></app-mailbox-usage>
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="action">
-        <th mat-header-cell *matHeaderCellDef>Action</th>
-        <td mat-cell *matCellDef="let element">
-          <button class="btn btn-outline-secondary btn-sm" (click)="openNewPasswordDialog(element)"
-            [disabled]="btnChangePasswordDisabled">Change&nbsp;Password
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-outline-secondary btn-sm" (click)="openNewPasswordDialog(element)"
+              [disabled]="btnChangePasswordDisabled">Change&nbsp;Password
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
-      <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
+        <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnNames;"></tr>
 
-    </table>
+      </table>
+    </div>
 
     <mat-spinner class="dashboard__spinner" *ngIf="showSpinner"></mat-spinner>
 
     <div class="dashboard__message">
       <p *ngIf="mailboxes && mailboxes.length===0">
-        There is no mailbox to display. 
+        There is no mailbox to display.
       </p>
     </div>
 

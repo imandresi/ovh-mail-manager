@@ -27,7 +27,7 @@ export class AuthService {
       .map(v => url.includes(v)).find(v => v);
 
     if (isApiResponse) {
-      const authorizationToken = response.headers.get('Authorization');
+      const authorizationToken = response.headers.get('X-Authorization');
       this.authorizationToken = authorizationToken;
     }
 

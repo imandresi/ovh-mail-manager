@@ -2,9 +2,6 @@
 .login__container {
   margin: 50px 0;
 
-  header {
-  }
-
   .login__section {
     display: flex;
     flex-direction: row;
@@ -32,6 +29,32 @@
       background-repeat: no-repeat;
       background-position: center;
     }
+
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+      align-items: stretch;
+
+      .login__form {
+        order: 2;
+      }
+
+      .login__hero {
+        order: 1;
+        height: 40vw;
+        width: auto;
+      }
+
+    }
+
   }
 
+}
+
+@media only screen and (max-width: 600px) {
+  .login__container {
+    header {
+      text-align: center;
+
+    }
+  }
 }
