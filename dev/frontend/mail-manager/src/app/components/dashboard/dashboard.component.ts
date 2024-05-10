@@ -10,7 +10,6 @@ import { NewPasswordDialogComponent } from "../new-password-dialog/new-password-
 import { AlertComponent } from "../alert/alert.component";
 import { NgIf } from "@angular/common";
 import { Router } from "@angular/router";
-import { AsyncPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
