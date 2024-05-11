@@ -1,1 +1,6 @@
 .fabric
+.test
+config.php
+config-*.php
+config.json
+vendor
