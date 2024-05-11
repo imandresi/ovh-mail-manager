@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "ng": "ng",
+    "gulp": "gulp",
     "start": "ng serve",
     "build": "ng build && gulp",
     "watch": "ng build --watch --configuration development",

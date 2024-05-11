@@ -15,7 +15,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Packaging the Application
 
-Execute the `gulp` command to compile both the frontend and backend projects, generating an installation zip file ready for deployment on a web server.
+Execute the `npm run gulp` command to compile both the frontend and backend projects, generating an installation zip file ready for deployment on a web server.
 
 The resulting zip file will be saved in the `/build` directory.
 
