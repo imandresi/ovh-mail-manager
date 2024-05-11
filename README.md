@@ -124,11 +124,12 @@ environment to start working on the "OVH Mail Manager" application. Let's dive i
 
 4. Configure the application:
     - For the frontend, navigate to the `src/assets/config.json` file and make the necessary modifications. Specify the
-      main URL to the backend endpoint. For further guidance on the frontend development, [Click Here]().
+      main URL to the backend endpoint. For further guidance on the frontend
+      development, [Click Here](./dev/frontend/README.md).
 
     - For the backend, access the `config.php` file and adjust the settings accordingly. Detailed instructions can be
       found in the previous "Installation" section.
-      For additional insights into the backend development, [Click Here]().
+      For additional insights into the backend development, [Click Here](./dev/backend/README.md).
 
 ## License
 
@@ -137,5 +138,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Image Credit
 
 The image used in the login page of this application was downloaded from
- [www.freepik.com](https://www.freepik.com/free-vector/landing-page-transfer-files-concept_5754876.htm) and is
+[www.freepik.com](https://www.freepik.com/free-vector/landing-page-transfer-files-concept_5754876.htm) and is
 used under the Freepik License.
