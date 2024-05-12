@@ -8,7 +8,6 @@ use Firebase\JWT\Key;
 class TokenManager {
 
 	const TOKEN_EXPIRATION_TIME = 60 * 60;
-
 	private string $token;
 	private string $secret_key;
 
@@ -18,8 +17,6 @@ class TokenManager {
 	public function __construct( $secret_key = AUTH_SECRET_KEY ) {
 		$this->token      = '';
 		$this->secret_key = $secret_key;
-
-		$this->verify_token();
 	}
 
 	public function create_token(): string {
@@ -59,7 +56,7 @@ class TokenManager {
 		return $this->token;
 	}
 
-	public function verify_token( $token = null ): bool {
+	public function verify_token( $token = null ) {
 
 		// check if token is in the header
 		if ( ! $token ) {
@@ -67,29 +64,22 @@ class TokenManager {
 		}
 
 		if ( ! $token ) {
-			return false;
+			throw new \Exception('Permission denied to access the resource', 403);
 		}
 
-		// decode token
 		try {
+
+			// decode JWT token
 			JWT::decode( $token, new Key( $this->secret_key, 'HS256' ) );
 
-			// No Error ? Token not expired yet - return in 'Authorization' header
+			// No Error ? Token not expired yet - return token in 'Authorization' header
 			$this->inject_token_in_header();
 
 		}
 		catch(\Exception $e) {
-			$error_code = $e->getCode();
-			$error_message = $e->getMessage();
-			if ($error_message == 'Expired token') {
-				$this->revoke_authorization();
-
-				return false;
-			}
-
+			$this->revoke_authorization();
+			throw new \Exception('Permission denied to access the resource', 403);
 		}
-
-		return true;
 
 	}
 }

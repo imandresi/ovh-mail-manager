@@ -108,13 +108,27 @@ function get_mail_manager(): \App\Core\MailManager {
 
 }
 
+function get_route_manager(): \App\Core\Router {
+	static $router = null;
+
+	if (!$router) {
+		$router = new \App\Core\Router();
+	}
+
+	return $router;
+
+}
+
 function build_endpoint( $route ): string {
 	return APP_API_ENDPOINT . $route;
 }
 
-function save_log( $data, $label = '' ) {
-	$data = print_r( $data, true );
-	$data = "\n\n-----------: $label\n" . $data;
-	file_put_contents( 'd:/temp.txt', $data, FILE_APPEND );
+
+function send_default_http_header_response() {
+	header( "Access-Control-Allow-Origin: *" );
+	header( "Content-Type: application/json; charset=UTF-8" );
+	header( "Access-Control-Allow-Methods: GET, POST, PUT, DELETE" );
+	header( "Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Authorization, X-Requested-With" );
+	header( "Access-Control-Expose-Headers: X-Authorization" );
 
 }

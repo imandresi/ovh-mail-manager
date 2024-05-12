@@ -5,6 +5,9 @@ namespace App;
 class RouteHandler {
 
 	public static function get_accounts( $vars ) {
+		// Checks validity of JWT Authorization token sent to the header
+		get_token_manager()->verify_token();
+
 		$domain = $vars['domain'];
 
 		if ( DOMAIN_NAME !== $domain ) {
@@ -43,18 +46,10 @@ class RouteHandler {
 
 	}
 
-	public static function check_logged_in() {
-		$logged_in = get_token_manager()->verify_token();
-		if ( ! $logged_in ) {
-			send_http_error( 401, 'Invalid credentials' );
-		}
-
-		send_http_response( [
-			'domainName' => DOMAIN_NAME
-		] );
-	}
-
 	public static function change_password( $http_data ) {
+		// Checks validity of JWT Authorization token sent to the header
+		get_token_manager()->verify_token();
+
 		try {
 			$result = get_mail_manager()->change_password(
 				$http_data['domain'],
