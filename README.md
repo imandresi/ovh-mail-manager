@@ -81,7 +81,7 @@ define( 'OVH_API_ENDPOINT', 'ovh-eu' );
 define( 'APP_API_ENDPOINT', '/api' );
 
 // Just put what you want
-// It is used to encrypt your authorization token when
+// It is used to encrypt your authorization token
 // for frontend/backend communications
 define( 'AUTH_SECRET_KEY', 'My Secret Key' );
 
