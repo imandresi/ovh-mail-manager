@@ -35,9 +35,6 @@ export class AppComponent implements OnInit {
       config => {
         config.endpoint = removeTrailingSlashes(config.endpoint);
         this.appState.config = config;
-
-        // check if already logged in
-        this.mailManager.checkLoggedIn();
         this.appInit = false;
 
       }

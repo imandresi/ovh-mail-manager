@@ -32,24 +32,7 @@ export class MailManagerService {
 
   }
 
-  checkLoggedIn(): void {
-
-    if (!this.auth.isLoggedIn) {
-
-      // do a request to the server to check if logged in
-      const url = this.appState.config.endpoint + '/check-logged-in';
-      this.http.get<any>(url).subscribe({
-        next: value => {
-          this.appState.setState('domainName', value?.domainName);
-        },
-        error: err => {
-          this.appState.reset();
-        }
-      });
-
-    }
-  }
-
+  
   getAccounts(domain: string): Observable<any> {
 
     const url = this.appState.config.endpoint + `/get-accounts/${this.appState.getState('domainName')}`;
