@@ -1,5 +1,3 @@
-![OVH Mail Manager Logo](./docs/app-logo.svg)
-
 # OVH Mail Manager
 
 OVH Mail Manager is an application designed to simplify the process of changing RoundCube email passwords for users with
